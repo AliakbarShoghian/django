@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>اسلایدر رایگان GSAP slider :: دریافت شده از وب روبیک</title>
+    <link type="text/css" href="/static/css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="slider">
+    <div class="slider-wrapper flex">
+        {% for sli in slide %}
+            <div class="slide flex">
+                <div class="slide-image slider-link prev">
+                    <img src="{{ sli.image.url }}">
+                </div>
+                <div id="div" class="slide-image slider-link prev">
+                    <img src="{{ sli.image.url }}">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="arrows"> <!-- Navigation -->
+        <a href="#" title="Previous" class="arrow slider-link next"></a>
+        <a href="#" title="Next" class="arrow slider-link prev"></a>
+    </div>
+</div>
+<script src="/static/js/jquery-3.1.1.min.js"></script>
+<script src="/static/js/TweenMax.min.js"></script>
+<script src="/static/js/scripts.js"></script>
+</body><!-- This template has been downloaded from Webrubik.com -->
+</html>
