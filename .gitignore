@@ -1,0 +1,4 @@
+# py caches
+djangoProject1/__pycache__/*
+slide_picture/__pycache__/*
+slide_picture/migrations/__pycache__/*
