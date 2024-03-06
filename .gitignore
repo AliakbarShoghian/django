@@ -2,3 +2,7 @@
 djangoProject1/__pycache__/*
 slide_picture/__pycache__/*
 slide_picture/migrations/__pycache__/*
+
+image_gallery/__pycache__/*
+image_viewer/__pycache__/*
+image_viewer/migrations/__pycache__/*

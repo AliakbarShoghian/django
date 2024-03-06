@@ -1,0 +1,7 @@
+<!-- image_viewer/templates/image_viewer/image_list.html -->
+
+{% for image in images %}
+    <a href="{% url 'image_detail' image.id %}">
+        <img src="{{ image.image.url }}" alt="Image">
+    </a>
+{% endfor %}
