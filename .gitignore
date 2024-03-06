@@ -6,3 +6,4 @@ slide_picture/migrations/__pycache__/*
 image_gallery/__pycache__/*
 image_viewer/__pycache__/*
 image_viewer/migrations/__pycache__/*
+media/*
