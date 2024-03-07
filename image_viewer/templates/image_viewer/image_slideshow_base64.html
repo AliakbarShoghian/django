@@ -16,7 +16,8 @@
 <body>
 
 <div class="image-container">
-    <img id="imageDisplay" src="" alt="Image will appear here">
+    <img id="originalImage" src="" alt="Original Image">
+    <img id="manipulatedImage" src="" alt="Manipulated Image">
     <div>
         <button onclick="previousImage()">Previous</button>
         <button onclick="nextImage()">Next</button>
@@ -28,20 +29,16 @@ var currentImageId = 1; // Initialize with the ID of the first image
 
 function loadImage(id) {
     fetch(`/manipulate_image/${id}/`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Image not found');
-            }
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById("imageDisplay").src = data;
-        })
-        .catch(error => {
-            console.error('Error fetching image:', error);
-            alert('Image not found');
-            // Handle missing image or end of image list (e.g., reset to first image)
-        });
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('originalImage').src = data.original_image;
+        document.getElementById('manipulatedImage').src = data.manipulated_image;
+    })
+    .catch(error => {
+        console.error('Error fetching image:', error);
+        alert('Image not found');
+        // Handle missing image or end of image list (e.g., reset to first image)
+    });
 }
 
 function nextImage() {
