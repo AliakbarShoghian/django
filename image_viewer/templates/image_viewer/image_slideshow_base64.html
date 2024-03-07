@@ -1,51 +1,62 @@
-<!-- image_viewer/templates/image_viewer/image_slideshow_base64.html -->
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Image Slideshow</title>
     <style>
-        #slideshow {
-            max-width: 100%;
-            max-height: 80vh;
-            margin: auto;
+        /* Add your styling here */
+        .image-container {
+            text-align: center;
         }
-
-        .nav-button {
-            cursor: pointer;
+        img {
+            max-width: 80%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <h1>Image Slideshow</h1>
 
-    <div id="slideshow-container">
-        {% for image in images %}
-            <img class="mySlides" src="data:image/png;base64,{{ image.encoded }}" alt="Image">
-        {% endfor %}
-
-        <a class="nav-button" onclick="plusSlides(-1)">❮ Previous</a>
-        <a class="nav-button" onclick="plusSlides(1)">Next ❯</a>
+<div class="image-container">
+    <img id="imageDisplay" src="" alt="Image will appear here">
+    <div>
+        <button onclick="previousImage()">Previous</button>
+        <button onclick="nextImage()">Next</button>
     </div>
+</div>
 
-    <script>
-        var slideIndex = 1;
-        showSlides(slideIndex);
+<script>
+var currentImageId = 1; // Initialize with the ID of the first image
 
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        function showSlides(n) {
-            var i;
-            var slides = document.getElementsByClassName("mySlides");
-            if (n > slides.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = slides.length }
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
+function loadImage(id) {
+    fetch(`/manipulate_image/${id}/`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Image not found');
             }
-            slides[slideIndex - 1].style.display = "block";
-        }
-    </script>
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById("imageDisplay").src = data;
+        })
+        .catch(error => {
+            console.error('Error fetching image:', error);
+            alert('Image not found');
+            // Handle missing image or end of image list (e.g., reset to first image)
+        });
+}
+
+function nextImage() {
+    currentImageId += 1;
+    loadImage(currentImageId);
+}
+
+function previousImage() {
+    currentImageId = Math.max(1, currentImageId - 1); // Prevents going below the first image
+    loadImage(currentImageId);
+}
+
+// Initially load the first image
+loadImage(currentImageId);
+</script>
+
 </body>
 </html>

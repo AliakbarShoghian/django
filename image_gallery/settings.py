@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'crispy_tailwind',
-    'image_viewer',
+    'image_viewer.apps.ImageViewerConfig',
 ]
 
 MIDDLEWARE = [

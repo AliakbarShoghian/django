@@ -3,7 +3,10 @@
 import base64
 import glob
 import os
+import cv2
 from django.shortcuts import render, get_object_or_404
+from django.core.files.base import ContentFile
+from django.http import HttpResponse
 from .models import Image
 from .forms import ImageForm
 from django.conf import settings
@@ -18,6 +21,28 @@ def image_detail(request, image_id):
 
 def home(request):
     return render(request, 'image_viewer/home.html')
+
+def manipulate_image(request, image_id):
+    try:
+        image_instance = Image.objects.get(pk=image_id)
+        # Read the image
+        image_path = image_instance.image.path
+        img = cv2.imread(image_path)
+        
+        # Manipulate the image (example: convert to grayscale)
+        manipulated_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        
+        # Convert the manipulated image to an in-memory file
+        _, buffer = cv2.imencode('.png', manipulated_img)
+        io_buf = ContentFile(buffer)
+
+        # Convert to base64
+        encoded_image = base64.b64encode(io_buf.read()).decode('utf-8')
+        
+        # Return the manipulated image as a base64 string
+        return HttpResponse(f"data:image/png;base64,{encoded_image}")
+    except Image.DoesNotExist:
+        return HttpResponse("Image not found", status=404)
 
 # def image_slideshow(request):
 #     media_root = settings.MEDIA_ROOT
